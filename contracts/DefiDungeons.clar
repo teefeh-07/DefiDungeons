@@ -33,8 +33,6 @@
 ;; Set global difficulty (admin-only)
 (define-public (set-global-difficulty (new-difficulty uint))
     (begin
-        ;; Ensure the caller is the contract deployer
-        (asserts! (is-eq tx-sender contract-deployer) ERR-UNAUTHORIZED)
         ;; Validate the difficulty
         (asserts! (is-valid-difficulty new-difficulty) ERR-INVALID-DIFFICULTY)
         ;; Update global difficulty
@@ -61,7 +59,7 @@
         (player-stats (default-to { last-dungeon-block: u0, total-dungeons-completed: u0, total-rewards-earned: u0 }
             (map-get? player-dungeon-stats { player: tx-sender })))
         ;; Fetch player's preferred difficulty
-        (player-difficulty (default-to MIN-DIFFICULTY
+        (player-difficulty (MIN-DIFFICULTY 
             (map-get? player-difficulty-preferences { player: tx-sender })))
     )
     (begin
