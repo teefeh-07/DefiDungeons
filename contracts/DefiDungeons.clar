@@ -59,7 +59,7 @@
         (player-stats (default-to { last-dungeon-block: u0, total-dungeons-completed: u0, total-rewards-earned: u0 }
             (map-get? player-dungeon-stats { player: tx-sender })))
         ;; Fetch player's preferred difficulty
-        (player-difficulty (MIN-DIFFICULTY 
+        (player-difficulty (default-to MIN-DIFFICULTY
             (map-get? player-difficulty-preferences { player: tx-sender })))
     )
     (begin
