@@ -57,15 +57,15 @@ Comprehensive error management with specific error codes:
 ### Configuration Magic 🔮
 ```clarity
 ;; Set initial parameters
-(var-set allowed-token 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.my-token) 🏷️
-(var-set global-difficulty u1) 🎚️
+(contract-call? .DefiDungeons set-allowed-token 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.my-token) 🏷️
+(contract-call? .DefiDungeons set-global-difficulty u1) 🎚️
 ```
 
 ## 📋 Function Spellbook
 
 ### Player Quests 🐉
-- `enter-dungeon`: Begin a dungeon run 🏁
-- `complete-dungeon`: Finish a dungeon and claim rewards 🏆
+- `enter-dungeon`: Begin a dungeon run with difficulty selection 🏁
+- `complete-dungeon`: Finish a dungeon and claim difficulty-based rewards 🏆
 - `get-player-dungeon-stats`: Retrieve player performance data 📊
 
 ### Administrative Scrolls 📜
@@ -156,5 +156,24 @@ For issues, feature requests, or contributions, please open a GitHub issue! 🆘
 
 ## ⚠️ Mystical Disclaimer
 This smart contract is provided as-is. Users should conduct their own due diligence and understand the risks associated with blockchain gaming and DeFi applications. 🧙‍♂️🛡️
+
+## 📋 Recent Updates & Changelog
+
+### Version 2.0 - Difficulty System & Enhanced Features 🚀
+- ✅ **Implemented Difficulty System**: Added 5-level difficulty system (1-5) with validation
+- ✅ **Difficulty-Based Rewards**: Rewards now scale with difficulty (Base: 200 tokens × difficulty level)
+- ✅ **Entry Cost Implementation**: Players now pay 100 tokens to enter dungeons
+- ✅ **Enhanced Player Stats**: Added player-specific difficulty tracking
+- ✅ **Proper Block Height**: Fixed hardcoded block height to use actual `stacks-block-height`
+- ✅ **Missing Functions**: Added `set-global-difficulty` administrative function
+- ✅ **Error Handling**: Added `ERR-INVALID-DIFFICULTY` error constant
+- ✅ **Comprehensive Tests**: Created full test suite with 11 test cases
+- ✅ **Code Quality**: Removed duplicate variables and improved code structure
+- ✅ **Balance Validation**: Added proper token balance checking before dungeon entry
+
+### Breaking Changes ⚠️
+- `enter-dungeon` function now requires a `difficulty` parameter
+- Entry cost is now charged from players (100 tokens)
+- Rewards are now calculated based on difficulty level
 
 **May your dungeons be epic and your rewards bountiful!** 🎉🏆🔥
