@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    document.addEventListener('refresh-stats', () => {
+        console.log("Refreshing stats triggered by event...");
+        updateStats();
+    });
 });
 
 async function updateStats() {
