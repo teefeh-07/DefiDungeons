@@ -7,12 +7,9 @@ import {
     PostConditionMode,
 } from '@stacks/transactions';
 import { network, userSession } from './wallet.js';
+import { CONTRACT_ADDRESS, CONTRACT_NAME, TOKEN_ADDRESS_MOCK, TOKEN_NAME_MOCK } from './constants.js';
 
 console.log("Transactions module loaded");
-
-// Contract Constants
-export const CONTRACT_ADDRESS = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-export const CONTRACT_NAME = 'DefiDungeons';
 
 function saveTx(txId, type) {
     const history = JSON.parse(localStorage.getItem('dd_tx_history') || '[]');
@@ -27,15 +24,12 @@ function saveTx(txId, type) {
 }
 
 export function enterDungeon() {
-    const tokenAddress = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9'; // mock
-    const tokenName = 'my-token';
-
     const options = {
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
         functionName: 'enter-dungeon',
         functionArgs: [
-            contractPrincipalCV(tokenAddress, tokenName)
+            contractPrincipalCV(TOKEN_ADDRESS_MOCK, TOKEN_NAME_MOCK)
         ],
         postConditionMode: PostConditionMode.Allow,
         network,
