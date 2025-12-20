@@ -72,7 +72,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log("Refreshing stats triggered by event...");
         updateStats();
     });
+
+    document.addEventListener('tx-history-updated', () => {
+        updateHistory();
+    });
+
+    // Initial load
+    updateHistory();
 });
+
+function updateHistory() {
+    const list = document.getElementById('tx-list');
+    if (!list) return;
+
+    const history = JSON.parse(localStorage.getItem('dd_tx_history') || '[]');
+    if (history.length === 0) {
+        list.innerHTML = '<p>No recent transactions.</p>';
+        return;
+    }
+
+    list.innerHTML = history.map(tx => `
+        <div class="tx-item">
+            <span class="tx-type">${tx.type}</span>
+            <a href="https://explorer.hiro.so/txid/${tx.txId}?chain=testnet" target="_blank" class="tx-link">${tx.txId.slice(0, 6)}...</a>
+            <span class="tx-status">${tx.status}</span>
+        </div>
+    `).join('');
+}
 
 async function updateStats() {
     const stats = await fetchPlayerStats();
