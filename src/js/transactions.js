@@ -14,6 +14,18 @@ console.log("Transactions module loaded");
 export const CONTRACT_ADDRESS = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
 export const CONTRACT_NAME = 'DefiDungeons';
 
+function saveTx(txId, type) {
+    const history = JSON.parse(localStorage.getItem('dd_tx_history') || '[]');
+    history.unshift({
+        txId,
+        type,
+        timestamp: Date.now(),
+        status: 'pending'
+    });
+    localStorage.setItem('dd_tx_history', JSON.stringify(history.slice(0, 10))); // keep last 10
+    document.dispatchEvent(new Event('tx-history-updated'));
+}
+
 export function enterDungeon() {
     const tokenAddress = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9'; // mock
     const tokenName = 'my-token';
@@ -33,6 +45,7 @@ export function enterDungeon() {
         },
         onFinish: (data) => {
             console.log('Transaction submitted:', data.txId);
+            saveTx(data.txId, 'Enter Dungeon');
             window.open(`https://explorer.hiro.so/txid/${data.txId}?chain=testnet`, '_blank');
         },
     };
@@ -59,6 +72,7 @@ export function completeDungeon() {
         },
         onFinish: (data) => {
             console.log('Transaction submitted:', data.txId);
+            saveTx(data.txId, 'Complete Dungeon');
             window.open(`https://explorer.hiro.so/txid/${data.txId}?chain=testnet`, '_blank');
         },
     };
@@ -83,6 +97,7 @@ export function craftItem(materialIds) {
         },
         onFinish: (data) => {
             console.log('Transaction submitted:', data.txId);
+            saveTx(data.txId, 'Craft Item');
             window.open(`https://explorer.hiro.so/txid/${data.txId}?chain=testnet`, '_blank');
         },
     };
