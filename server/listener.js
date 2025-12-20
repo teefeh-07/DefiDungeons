@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import http from 'http';
+import { handleEvent } from './controller.js';
 
 const app = express();
 const port = 3000;
@@ -26,12 +27,7 @@ io.on('connection', (socket) => {
 });
 
 app.post('/api/events', (req, res) => {
-    console.log('Received Chainhook Event:', JSON.stringify(req.body, null, 2));
-
-    // Broadcast event to all connected clients
-    io.emit('chainhook-event', req.body);
-
-    res.status(200).send('Event received');
+    handleEvent(req, res, io);
 });
 
 server.listen(port, () => {
