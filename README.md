@@ -68,7 +68,9 @@ MIT
 ## Chainhooks (Event Monitoring)
 
 1. Configure hooks in `chainhooks/config.json`.
-2. Run listener:
+2. Register hooks using `@hirosystems/chainhooks-client` (see `chainhooks/register.js`).
+3. Run the listener server:
    ```bash
-   node server/listener.js
+   npm run server
    ```
+4. The frontend will automatically connect to the server via Socket.IO.
