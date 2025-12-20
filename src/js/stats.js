@@ -1,5 +1,5 @@
 import { callReadOnlyFunction, standardPrincipalCV, cvToJSON } from '@stacks/transactions';
-import { CONTRACT_ADDRESS, CONTRACT_NAME } from './transactions.js';
+import { CONTRACT_ADDRESS, CONTRACT_NAME } from './constants.js';
 import { network, userSession } from './wallet.js';
 
 export async function fetchPlayerStats() {
