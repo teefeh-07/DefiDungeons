@@ -1,0 +1,6 @@
+
+export const CONTRACT_ADDRESS = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+export const CONTRACT_NAME = 'DefiDungeons';
+export const TOKEN_ADDRESS_MOCK = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9';
+export const TOKEN_NAME_MOCK = 'my-token';
+export const API_BASE_URL = 'http://localhost:3000';
