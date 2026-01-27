@@ -33,10 +33,15 @@
 (define-constant ERR-DUNGEON-COOLDOWN (err u1007))
 (define-constant ERR-ITEM-CRAFT-FAILED (err u1008))
 
+
 ;; Game Constants
 (define-constant ENTRY_COST u100)
 (define-constant REWARD_AMOUNT u200)
 (define-constant DUNGEON_COOLDOWN_BLOCKS u100)
+(define-constant ITEM-COMMONu0)
+(define-constant ITEM-RARE u1)
+(define-constant ITEM-EPIC u2)
+(define-constant ITEM-LEGENDARYu3)
 
 ;; --------------------------------------------------------------------------
 ;; Data Definitions
@@ -59,6 +64,11 @@
         total-rewards-earned: uint,
         xp: uint,
     }
+)
+
+(define-map player-inventory
+    { player: principal, item-id: uint }
+    { item-type: uint, equipped: bool }
 )
 
 ;; --------------------------------------------------------------------------
@@ -220,5 +230,38 @@
         (var-set contract-owner pending)
         (var-set pending-owner none)
         (ok true)
+    )
+)
+
+;; Item discovery during dungeon runs
+(define-public (discover-item)
+    (let (
+            (player tx-sender)
+            (player-stats (default-to 
+                { 
+                    last-dungeon-block: u0,
+                    total-dungeons-completed: u0,
+                    total-rewards-earned: u0,
+                    xp: u0,
+                }
+                (map-get? player-dungeon-stats { player: player })
+            ))
+            (rng (mod (get block-height (get-block-info?)) u100)) ;; Simple RNG
+        )
+        
+        ;; Chance to find item based on XP
+        (if (>= rng (min u90 (/ (get xp player-stats) u10)))
+            (begin
+                ;; Determine item rarity
+                (let ((item-id (get total-dungeons-completed player-stats)))
+                    (map-set player-inventory 
+                        { player: player, item-id: item-id } 
+                        { item-type: ITEM-COMMON, equipped: false }
+                    )
+                    (ok (some item-id))
+                )
+            )
+            (ok none)
+        )
     )
 )
